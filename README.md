@@ -20,7 +20,7 @@ This project provides a PowerPoint automation server that works with Claude Desk
 2. Install dependencies:
 
    ```bash
-   pip install fastmcp pywin32
+   uv add fastmcp pywin32
    ```
 
 3. Configure Claude Desktop:
