@@ -108,7 +108,7 @@ def get_slides(presentation_id: str) -> List[Dict[str, Any]]:
     slides = []
     
     try:
-        # 获取幻灯片数量，并添加错误处理
+        # Get slide count and add error handling
         slide_count = pres.Slides.Count
         
         for i in range(1, slide_count + 1):
@@ -137,7 +137,7 @@ def get_slide_title(slide):
                         return shape.TextFrame.TextRange.Text
         
         # If no title placeholder found, check any shape with text
-        # 首先尝试识别类型为17的形状（这是测试用例中使用的特定类型）
+        # First try to identify shapes of type 17 (this is the specific type used in the test case)
         for shape in slide.Shapes:
             if shape.Type == 17 and hasattr(shape, "TextFrame") and hasattr(shape.TextFrame, "TextRange"):
                 try:
@@ -147,9 +147,9 @@ def get_slide_title(slide):
                 except:
                     continue
                     
-        # 如果没有找到类型为17的形状，则检查任何其他有文本的形状
+        # If no shape of type 17 is found, check any other shape with text
         for shape in slide.Shapes:
-            # 跳过已经检查过的标题占位符
+            # Skip title placeholders already checked
             is_title_placeholder = (shape.Type == 14 and 
                                    hasattr(shape, "PlaceholderFormat") and 
                                    shape.PlaceholderFormat.Type == 1)
