@@ -1,6 +1,6 @@
 # 🎯 Cross-Platform PowerPoint MCP Server
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/powerpoint-mcp-server.svg)](https://badge.fury.io/py/powerpoint-mcp-server)
 [![Cross-Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/your-username/powerpoint-mcp-server)
@@ -155,7 +155,7 @@ python -m build
 
 ## 📝 Requirements
 
-- **Python 3.8+**
+- **Python 3.10+**
 - **Claude Desktop** client
 - **Optional**: PowerPoint Desktop (for live control on Windows)
 
