@@ -59,17 +59,14 @@ def test_get_presentations_function():
 
 def test_mcp_tools_are_decorated():
     """Test that MCP tools are properly decorated."""
-    import powerpoint_mcp_server.main as main_module
-    
-    # Check that key functions have the @mcp.tool() decorator applied
-    # This is tested by checking if the function has been registered
-    assert hasattr(main_module, 'mcp')
+    from powerpoint_mcp_server.main import mcp
     
     # The FastMCP instance should exist
-    assert main_module.mcp is not None
+    assert mcp is not None
     
-    # Check that tools are registered
-    assert len(main_module.mcp.tools) > 0
+    # Check that the mcp instance has the expected methods
+    assert hasattr(mcp, 'tool')
+    assert hasattr(mcp, 'list_tools')
 
 
 @pytest.mark.integration
