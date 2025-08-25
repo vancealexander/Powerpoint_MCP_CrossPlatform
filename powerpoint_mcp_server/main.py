@@ -14,7 +14,7 @@ ppt_adapter = get_powerpoint_adapter()
 def initialize_powerpoint() -> Dict[str, Any]:
     """
     Initialize connection to PowerPoint.
-    
+
     Returns:
         Status of initialization and platform information
     """
@@ -23,7 +23,11 @@ def initialize_powerpoint() -> Dict[str, Any]:
         "success": success,
         "platform": platform.system(),
         "adapter_type": type(ppt_adapter).__name__,
-        "message": "PowerPoint connection initialized" if success else "Failed to initialize PowerPoint"
+        "message": (
+            "PowerPoint connection initialized"
+            if success
+            else "Failed to initialize PowerPoint"
+        ),
     }
 
 
@@ -37,10 +41,10 @@ def get_presentations() -> List[Dict[str, Any]]:
 def open_presentation(path: str) -> Dict[str, Any]:
     """
     Open a PowerPoint presentation from the specified path.
-    
+
     Args:
         path: Full path to the PowerPoint file (.pptx, .ppt)
-        
+
     Returns:
         Dictionary with presentation ID and metadata
     """
@@ -51,10 +55,10 @@ def open_presentation(path: str) -> Dict[str, Any]:
 def get_slides(presentation_id: str) -> List[Dict[str, Any]]:
     """
     Get a list of all slides in a presentation.
-    
+
     Args:
         presentation_id: ID of the presentation
-        
+
     Returns:
         List of slide metadata
     """
@@ -65,11 +69,11 @@ def get_slides(presentation_id: str) -> List[Dict[str, Any]]:
 def get_slide_text(presentation_id: str, slide_id: int) -> Dict[str, Any]:
     """
     Get all text content in a slide.
-    
+
     Args:
         presentation_id: ID of the presentation
         slide_id: ID of the slide (integer)
-        
+
     Returns:
         Dictionary containing text content organized by shape
     """
@@ -77,16 +81,18 @@ def get_slide_text(presentation_id: str, slide_id: int) -> Dict[str, Any]:
 
 
 @mcp.tool()
-def update_text(presentation_id: str, slide_id: str, shape_id: str, text: str) -> Dict[str, Any]:
+def update_text(
+    presentation_id: str, slide_id: str, shape_id: str, text: str
+) -> Dict[str, Any]:
     """
     Update the text content of a shape.
-    
+
     Args:
         presentation_id: ID of the presentation
         slide_id: ID of the slide (numeric string)
         shape_id: ID of the shape (numeric string)
         text: New text content
-        
+
     Returns:
         Status of the operation
     """
@@ -97,11 +103,11 @@ def update_text(presentation_id: str, slide_id: str, shape_id: str, text: str) -
 def save_presentation(presentation_id: str, path: str = None) -> Dict[str, Any]:
     """
     Save a presentation to disk.
-    
+
     Args:
         presentation_id: ID of the presentation
         path: Optional path to save the file (if None, save to current location)
-        
+
     Returns:
         Status of the operation
     """
@@ -112,11 +118,11 @@ def save_presentation(presentation_id: str, path: str = None) -> Dict[str, Any]:
 def close_presentation(presentation_id: str, save: bool = True) -> Dict[str, Any]:
     """
     Close a presentation.
-    
+
     Args:
         presentation_id: ID of the presentation
         save: Whether to save changes before closing
-        
+
     Returns:
         Status of the operation
     """
@@ -127,7 +133,7 @@ def close_presentation(presentation_id: str, save: bool = True) -> Dict[str, Any
 def create_presentation() -> Dict[str, Any]:
     """
     Create a new PowerPoint presentation.
-    
+
     Returns:
         Dictionary containing new presentation ID and metadata
     """
@@ -138,7 +144,7 @@ def create_presentation() -> Dict[str, Any]:
 def add_slide(presentation_id: str, layout_type: int = 1) -> Dict[str, Any]:
     """
     Add a new slide to the presentation.
-    
+
     Args:
         presentation_id: ID of the presentation
         layout_type: Slide layout type (default is 1, title slide)
@@ -147,7 +153,7 @@ def add_slide(presentation_id: str, layout_type: int = 1) -> Dict[str, Any]:
             3: ppLayoutTwoColumns (two-column slide)
             7: ppLayoutBlank (blank slide)
             etc...
-            
+
     Returns:
         Information about the new slide
     """
@@ -155,12 +161,18 @@ def add_slide(presentation_id: str, layout_type: int = 1) -> Dict[str, Any]:
 
 
 @mcp.tool()
-def add_text_box(presentation_id: str, slide_id: str, text: str, 
-                 left: float = 100, top: float = 100, 
-                 width: float = 400, height: float = 200) -> Dict[str, Any]:
+def add_text_box(
+    presentation_id: str,
+    slide_id: str,
+    text: str,
+    left: float = 100,
+    top: float = 100,
+    width: float = 400,
+    height: float = 200,
+) -> Dict[str, Any]:
     """
     Add a text box to a slide and set its text content.
-    
+
     Args:
         presentation_id: ID of the presentation
         slide_id: ID of the slide (numeric string)
@@ -169,23 +181,25 @@ def add_text_box(presentation_id: str, slide_id: str, text: str,
         top: Top edge position of the text box (points)
         width: Width of the text box (points)
         height: Height of the text box (points)
-        
+
     Returns:
         Operation status and ID of the new shape
     """
-    return ppt_adapter.add_text_box(presentation_id, slide_id, text, left, top, width, height)
+    return ppt_adapter.add_text_box(
+        presentation_id, slide_id, text, left, top, width, height
+    )
 
 
 @mcp.tool()
 def set_slide_title(presentation_id: str, slide_id: str, title: str) -> Dict[str, Any]:
     """
     Set the title text of a slide.
-    
+
     Args:
         presentation_id: ID of the presentation
         slide_id: ID of the slide (numeric string)
         title: New title text
-        
+
     Returns:
         Status of the operation
     """
@@ -196,7 +210,7 @@ def set_slide_title(presentation_id: str, slide_id: str, title: str) -> Dict[str
 def get_platform_info() -> Dict[str, Any]:
     """
     Get information about the current platform and available PowerPoint adapters.
-    
+
     Returns:
         Platform and adapter information
     """
@@ -205,7 +219,8 @@ def get_platform_info() -> Dict[str, Any]:
         "platform_release": platform.release(),
         "python_version": sys.version,
         "adapter_type": type(ppt_adapter).__name__,
-        "adapter_available": hasattr(ppt_adapter, 'available') and getattr(ppt_adapter, 'available', False)
+        "adapter_available": hasattr(ppt_adapter, "available")
+        and getattr(ppt_adapter, "available", False),
     }
 
 
