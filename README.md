@@ -1,128 +1,192 @@
-# PowerPoint Automation MCP Server for Claude Desktop
+# 🎯 Cross-Platform PowerPoint MCP Server
 
-This project provides a PowerPoint automation server that works with Claude Desktop via the Model Control Protocol (MCP). It allows Claude to interact with Microsoft PowerPoint, enabling tasks like creating presentations, adding slides, modifying content, and more.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://badge.fury.io/py/powerpoint-mcp-server.svg)](https://badge.fury.io/py/powerpoint-mcp-server)
+[![Cross-Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/your-username/powerpoint-mcp-server)
 
-## Features
+A **cross-platform** PowerPoint automation server that works with [Claude Desktop](https://claude.ai/) via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/). Create, edit, and manage PowerPoint presentations on **Windows, macOS, and Linux** using AI assistance.
 
-- Create, open, save, and close PowerPoint presentations
-- List all open presentations
-- Get slide information and content
-- Add new slides with different layouts
-- Add text boxes to slides
-- Update text content in shapes
-- Set slide titles
-- And more!
+## ✨ Features
 
-## Installation
+- 🌍 **Cross-platform compatibility** (Windows, macOS, Linux)
+- 🎨 **Complete PowerPoint automation** - Create, edit, save presentations
+- 🔄 **Intelligent adapter selection** - COM API on Windows, python-pptx everywhere else
+- 🤖 **Claude Desktop integration** - Control PowerPoint through natural language
+- 📝 **Rich text manipulation** - Add text boxes, update content, set titles
+- 🎭 **Advanced techniques support** - Perfect for morph transitions and animations
+- 📦 **Easy installation** - Available on PyPI
 
-1. Clone this repository:
+## 🚀 Quick Start
 
-2. Install dependencies:
+### Installation
 
-   ```bash
-   uv add fastmcp pywin32
-   ```
+```bash
+pip install powerpoint-mcp-server
+```
 
-3. Configure Claude Desktop:
-   - Open Claude Desktop
-   - Navigate to settings
-   - Configure the MCP server as explained below
+**Platform-specific notes:**
+- **Windows**: Optionally install `pywin32` for direct PowerPoint COM API access
+- **macOS/Linux**: Uses `python-pptx` library (installed automatically)
 
-## Configuration
+### Claude Desktop Configuration
 
-To configure Claude Desktop to use this MCP server, add the following to your Claude Desktop configuration file, located at `%APPDATA%\Claude\claude_desktop_config.json`:
+Add to your Claude Desktop configuration file:
+
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Linux**: `~/.config/claude/claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
-    "ppts": {
-      "command": "uv",
-      "args": ["run", "path/to/main.py"]
+    "powerpoint": {
+      "command": "python",
+      "args": ["-m", "powerpoint_mcp_server"]
     }
   }
 }
 ```
 
-If you're using a virtual environment or alternative Python executable (like `uv`):
+## 💬 Usage Examples
 
-```json
-{
-  "mcpServers": {
-    "ppts": {
-      "command": "C:\\Path\\To\\Python\\Scripts\\uv.exe",
-      "args": ["run", "C:\\Path\\To\\Project\\main.py"]
-    }
-  }
-}
+Once configured, interact with PowerPoint through Claude Desktop:
+
+```
+🤖 What platform am I running on and what PowerPoint adapter is available?
+
+🤖 Please create a new PowerPoint presentation with a title slide called "AI-Powered Presentations"
+
+🤖 Add a content slide explaining the benefits of cross-platform automation
+
+🤖 Save the presentation to ~/Documents/my-ai-presentation.pptx
 ```
 
-## Usage
+## 🔧 Available Functions
 
-Once configured, you can use Claude Desktop to control PowerPoint. Example interactions:
+### Core Operations
+- `initialize_powerpoint()` - Initialize PowerPoint connection
+- `get_platform_info()` - Get system and adapter information
+- `create_presentation()` - Create new presentation
+- `open_presentation(path)` - Open existing presentation
+- `save_presentation(id, path)` - Save presentation
+- `close_presentation(id)` - Close presentation
 
-1. Initialize PowerPoint:
+### Slide Management
+- `get_slides(presentation_id)` - List all slides
+- `add_slide(presentation_id, layout_type)` - Add new slide
+- `get_slide_text(presentation_id, slide_id)` - Extract slide text
+- `set_slide_title(presentation_id, slide_id, title)` - Set slide title
 
-   ```
-   Could you open PowerPoint for me?
-   ```
+### Content Editing
+- `add_text_box(presentation_id, slide_id, text, ...)` - Add text box
+- `update_text(presentation_id, slide_id, shape_id, text)` - Update text content
 
-2. Create a new presentation:
+## 🖥️ Platform Support
 
-   ```
-   Please create a new PowerPoint presentation.
-   ```
+| Feature | Windows + PowerPoint | Windows (python-pptx) | macOS | Linux |
+|---------|---------------------|----------------------|--------|--------|
+| Create presentations | ✅ | ✅ | ✅ | ✅ |
+| Edit presentations | ✅ | ✅ | ✅ | ✅ |
+| Live PowerPoint control | ✅ | ❌ | ❌ | ❌ |
+| File-based operations | ✅ | ✅ | ✅ | ✅ |
+| Morph transitions* | ✅ | ✅ | ✅ | ✅ |
 
-3. Add a slide:
+*\*Morph transitions require PowerPoint Desktop for playback*
 
-   ```
-   Add a new slide to the presentation.
-   ```
+## 🎭 Advanced Use Cases
 
-4. Add content:
+This MCP server is perfect for:
+- **AI-assisted presentation creation**
+- **Batch processing PowerPoint files**
+- **Cross-platform presentation workflows**
+- **Advanced animation techniques** (liquid masks, morph effects)
+- **Automated content generation**
+- **Educational presentation tools**
 
-   ```
-   Add a text box to slide 1 with the text "Hello World".
-   ```
+## 🏗️ Architecture
 
-5. Save the presentation:
-   ```
-   Save the presentation to C:\Users\username\Documents\presentation.pptx
-   ```
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│  Claude Desktop │◄──►│  MCP Protocol    │◄──►│   This Server   │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                                         │
+                                                         ▼
+                                               ┌─────────────────┐
+                                               │ Platform Detect │
+                                               └─────────────────┘
+                                                         │
+                                    ┌────────────────────┼────────────────────┐
+                                    ▼                    ▼                    ▼
+                          ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+                          │ Windows COM API │  │   python-pptx   │  │ Fallback Handler│
+                          │   (pywin32)     │  │ (Cross-platform)│  │   (No adapter)  │
+                          └─────────────────┘  └─────────────────┘  └─────────────────┘
+```
 
-## Available Functions
+## 🛠️ Development
 
-The server provides the following PowerPoint automation functions:
+### Setup Development Environment
 
-- `initialize_powerpoint()`: Connect to PowerPoint and make it visible
-- `get_presentations()`: List all open presentations
-- `open_presentation(path)`: Open a presentation from a file
-- `get_slides(presentation_id)`: Get all slides in a presentation
-- `get_slide_text(presentation_id, slide_id)`: Get text content of a slide
-- `update_text(presentation_id, slide_id, shape_id, text)`: Update text in a shape
-- `save_presentation(presentation_id, path)`: Save a presentation
-- `close_presentation(presentation_id, save)`: Close a presentation
-- `create_presentation()`: Create a new presentation
-- `add_slide(presentation_id, layout_type)`: Add a new slide
-- `add_text_box(presentation_id, slide_id, text, left, top, width, height)`: Add a text box
-- `set_slide_title(presentation_id, slide_id, title)`: Set the title of a slide
+```bash
+# Clone repository
+git clone https://github.com/your-username/powerpoint-mcp-server.git
+cd powerpoint-mcp-server
 
-## Requirements
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-- Windows with Microsoft PowerPoint installed
-- Python 3.7+
-- Claude Desktop client
-- `pywin32` and `fastmcp` Python packages
+# Install in development mode
+pip install -e ".[dev]"
+```
 
-## Limitations
+### Running Tests
 
-- Works only on Windows with PowerPoint installed
-- The PowerPoint application will open and be visible during operations
-- Limited to the capabilities exposed by the PowerPoint COM API
+```bash
+pytest
+```
 
-## Contributing
+### Building Package
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+python -m build
+```
 
-## License
+## 📝 Requirements
 
-[MIT License](LICENSE)
+- **Python 3.8+**
+- **Claude Desktop** client
+- **Optional**: PowerPoint Desktop (for live control on Windows)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md).
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and add tests
+4. Commit: `git commit -m 'Add amazing feature'`
+5. Push: `git push origin feature/amazing-feature`
+6. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) - Communication protocol
+- [python-pptx](https://python-pptx.readthedocs.io/) - Cross-platform PowerPoint library  
+- [pywin32](https://github.com/mhammond/pywin32) - Windows COM API access
+- [Claude Desktop](https://claude.ai/) - AI-powered automation platform
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-username/powerpoint-mcp-server/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/powerpoint-mcp-server/discussions)
+- **Documentation**: [Project Wiki](https://github.com/your-username/powerpoint-mcp-server/wiki)
+
+---
+
+**Made with ❤️ for the Claude Desktop community**

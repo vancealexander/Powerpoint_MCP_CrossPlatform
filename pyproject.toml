@@ -1,13 +1,49 @@
 [project]
-name = "mcp-ppt"
-version = "0.1.0"
-description = "Add your description here"
+name = "powerpoint-mcp-server"
+version = "1.0.0"
+description = "Cross-platform PowerPoint automation MCP server for Claude Desktop"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "mcp[cli]>=1.4.1",
-    "pillow>=11.1.0",
-    "python-pptx>=1.0.2",
-    "pywin32>=310",
-    "requests>=2.32.3",
+requires-python = ">=3.8"
+keywords = ["mcp", "powerpoint", "claude", "automation", "cross-platform"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Office Suites",
+    "Topic :: Software Development :: Libraries :: Python Modules"
 ]
+dependencies = [
+    "mcp>=1.4.1",
+    "python-pptx>=0.6.21",
+    "pywin32>=306; platform_system=='Windows'"
+]
+
+[project.optional-dependencies]
+windows = ["pywin32>=306"]
+dev = ["pytest>=7.0", "black", "flake8"]
+
+[project.urls]
+Homepage = "https://github.com/your-username/powerpoint-mcp-server"
+Repository = "https://github.com/your-username/powerpoint-mcp-server.git"
+Issues = "https://github.com/your-username/powerpoint-mcp-server/issues"
+
+[project.scripts]
+powerpoint-mcp = "powerpoint_mcp_server.main:main"
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["powerpoint_mcp_server*"]
+
+[tool.setuptools.package-data]
+powerpoint_mcp_server = ["*.py"]
