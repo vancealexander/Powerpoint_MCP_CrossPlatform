@@ -67,6 +67,9 @@ def test_mcp_tools_are_decorated():
     
     # The FastMCP instance should exist
     assert main_module.mcp is not None
+    
+    # Check that tools are registered
+    assert len(main_module.mcp.tools) > 0
 
 
 @pytest.mark.integration
